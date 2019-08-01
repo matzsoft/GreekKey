@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD0A001022F21B60006E418E /* GreekKeyBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0A000E22F21B60006E418E /* GreekKeyBorder.swift */; };
+		DD0A001122F21B60006E418E /* GreekKeyCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0A000F22F21B60006E418E /* GreekKeyCells.swift */; };
 		DD0AFFE622EE7CA3006E418E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0AFFE522EE7CA3006E418E /* AppDelegate.swift */; };
 		DD0AFFE822EE7CA3006E418E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0AFFE722EE7CA3006E418E /* ViewController.swift */; };
 		DD0AFFEA22EE7CA5006E418E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD0AFFE922EE7CA5006E418E /* Assets.xcassets */; };
@@ -14,6 +16,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DD0A000E22F21B60006E418E /* GreekKeyBorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreekKeyBorder.swift; sourceTree = "<group>"; };
+		DD0A000F22F21B60006E418E /* GreekKeyCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreekKeyCells.swift; sourceTree = "<group>"; };
 		DD0AFFE222EE7CA3006E418E /* GreekKey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GreekKey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD0AFFE522EE7CA3006E418E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DD0AFFE722EE7CA3006E418E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -53,6 +57,8 @@
 		DD0AFFE422EE7CA3006E418E /* GreekKey */ = {
 			isa = PBXGroup;
 			children = (
+				DD0A000E22F21B60006E418E /* GreekKeyBorder.swift */,
+				DD0A000F22F21B60006E418E /* GreekKeyCells.swift */,
 				DD0AFFE522EE7CA3006E418E /* AppDelegate.swift */,
 				DD0AFFE722EE7CA3006E418E /* ViewController.swift */,
 				DD0AFFE922EE7CA5006E418E /* Assets.xcassets */,
@@ -133,7 +139,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD0A001122F21B60006E418E /* GreekKeyCells.swift in Sources */,
 				DD0AFFE822EE7CA3006E418E /* ViewController.swift in Sources */,
+				DD0A001022F21B60006E418E /* GreekKeyBorder.swift in Sources */,
 				DD0AFFE622EE7CA3006E418E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
