@@ -30,7 +30,7 @@ class OptionsViewController: NSViewController {
         foregroundColorWell.color = NSColor.black
         backgroundColorWell.color = NSColor.white
         
-        createBorder()
+        updateBorder()
     }
     
     override var representedObject: Any? {
@@ -42,36 +42,60 @@ class OptionsViewController: NSViewController {
     @IBAction func sliderClicked(_ sender: NSSliderCell) {
         let currentValue = blockSizeSlider.integerValue
         
-        createBorder()
+        updateBorder()
         DispatchQueue.main.async {
             self.blockSizeLabel?.stringValue = "Block Size = \(currentValue)"
         }
     }
     
     @IBAction func foregroundChanged(_ sender: Any) {
-        createBorder()
+        updateBorder()
     }
     
     @IBAction func backgroundChanged(_ sender: Any) {
-        createBorder()
+        updateBorder()
     }
     
-    func createBorder() -> Void {
-        if let rvc = resultsViewController {
-            let blockSize = blockSizeSlider.integerValue
-            let fgColor = foregroundColorWell.color.cgColor
-            let bgColor = backgroundColorWell.color.cgColor
-            let width = rvc.imageView.bounds.width
-            let height = rvc.imageView.bounds.height
-            let generator = GreekKeyCells( blockWidth: blockSize, fgColor: fgColor, bgColor: bgColor )
-            let border = GreekKeyBorder( generator: generator, width: Int(width), height: Int(height) )
+    func export() {
+        guard let border = createBorder() else { return }
+        guard let image = border.draw() else { return }
+        
+        let savePanel = NSSavePanel()
+        
+        savePanel.allowedFileTypes = [ "png" ]
+        if savePanel.runModal() == .OK {
+            guard let exportedURL = savePanel.url else { return }
+            let url = exportedURL as CFURL
             
-            rvc.setImage( border: border )
-            
-            DispatchQueue.main.async {
-                self.horizontalCountLabel.stringValue = "\(border.xCells)"
-                self.verticalCountLabel.stringValue = "\(border.yCells)"
+            if let dest = CGImageDestinationCreateWithURL( url, "public.png" as CFString, 1, nil ) {
+                CGImageDestinationAddImage( dest, image, nil )
+                CGImageDestinationFinalize( dest )
             }
+        }
+    }
+    
+    func createBorder() -> GreekKeyBorder? {
+        guard let rvc = resultsViewController else { return nil }
+        
+        let blockSize = blockSizeSlider.integerValue
+        let fgColor = foregroundColorWell.color.cgColor
+        let bgColor = backgroundColorWell.color.cgColor
+        let width = rvc.imageView.bounds.width
+        let height = rvc.imageView.bounds.height
+        let generator = GreekKeyCells( blockWidth: blockSize, fgColor: fgColor, bgColor: bgColor )
+        
+        return GreekKeyBorder( generator: generator, width: Int(width), height: Int(height) )
+    }
+    
+    func updateBorder() -> Void {
+        guard let rvc = resultsViewController else { return }
+        guard let border = createBorder() else { return }
+        
+        rvc.setImage( border: border )
+        
+        DispatchQueue.main.async {
+            self.horizontalCountLabel.stringValue = "\(border.xCells)"
+            self.verticalCountLabel.stringValue = "\(border.yCells)"
         }
     }
 }

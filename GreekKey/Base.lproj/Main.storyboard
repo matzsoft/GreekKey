@@ -103,6 +103,13 @@
                                                 <action selector="revertDocumentToSaved:" target="Ady-hI-5gd" id="iJ3-Pv-kwq"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="5bj-1v-L1l"/>
+                                        <menuItem title="Export..." id="br6-U8-1f4">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="export:" target="Voe-Tx-rLC" id="pk5-Rk-MMe"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="aJh-i4-bef"/>
                                         <menuItem title="Page Setup…" keyEquivalent="P" id="qIS-W8-SiK">
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>

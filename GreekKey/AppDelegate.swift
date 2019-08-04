@@ -20,6 +20,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         optionsWindowController?.showWindow( self )
     }
 
+    @IBAction func export( _ sender: Any ) {
+        if let owc = optionsWindowController {
+            if let ovc = owc.contentViewController as? OptionsViewController {
+                ovc.export()
+            }
+        }
+    }
     
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application

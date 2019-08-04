@@ -25,7 +25,7 @@ class ResultsViewController: NSViewController, NSWindowDelegate {
     
     func windowDidResize(_ notification: Notification) {
         // Your code goes here
-        optionsViewController?.createBorder()
+        optionsViewController?.updateBorder()
     }
 
     override var representedObject: Any? {
