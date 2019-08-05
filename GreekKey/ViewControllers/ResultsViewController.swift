@@ -34,11 +34,9 @@ class ResultsViewController: NSViewController, NSWindowDelegate {
         }
     }
     
-    func setImage( border: GreekKeyBorder ) -> Void {
-        if let image = border.draw() {
-            let nsImage = NSImage( cgImage: image, size: NSZeroSize )
-            
-            imageView.image = nsImage
-        }
+    func setImage( image: CGImage ) -> Void {
+        let nsImage = NSImage( cgImage: image, size: NSZeroSize )
+        
+        imageView.image = nsImage
     }
 }

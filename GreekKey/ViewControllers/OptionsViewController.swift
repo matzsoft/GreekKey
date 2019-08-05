@@ -17,6 +17,7 @@ class OptionsViewController: NSViewController {
     @IBOutlet weak var verticalCountLabel: NSTextField!
     
     var resultsViewController: ResultsViewController?
+    var lastImage: CGImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,8 +58,7 @@ class OptionsViewController: NSViewController {
     }
     
     func export() {
-        guard let border = createBorder() else { return }
-        guard let image = border.draw() else { return }
+        guard let image = lastImage else { return }
         
         let savePanel = NSSavePanel()
         
@@ -90,8 +90,10 @@ class OptionsViewController: NSViewController {
     func updateBorder() -> Void {
         guard let rvc = resultsViewController else { return }
         guard let border = createBorder() else { return }
+        guard let image = border.draw() else { return }
         
-        rvc.setImage( border: border )
+        lastImage = image
+        rvc.setImage( image: image )
         
         DispatchQueue.main.async {
             self.horizontalCountLabel.stringValue = "\(border.xCells)"
