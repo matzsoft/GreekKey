@@ -9,7 +9,7 @@
 import Foundation
 
 class GreekKeyCells {
-    let blockWidth: Int
+    let blockSize:  Int
     let fgColor:    CGColor
     let bgColor:    CGColor
     let minWidth:   Int
@@ -18,8 +18,8 @@ class GreekKeyCells {
     let colorSpace: CGColorSpace
     var context:    CGContext?
 
-    init( blockWidth: Int, fgColor: CGColor, bgColor: CGColor ) {
-        self.blockWidth = blockWidth
+    init( blockSize: Int, fgColor: CGColor, bgColor: CGColor ) {
+        self.blockSize  = blockSize
         self.fgColor    = fgColor
         self.bgColor    = bgColor
         
@@ -31,8 +31,8 @@ class GreekKeyCells {
     
 
     func setupContext( width: Int, height: Int ) -> Void {
-        let userWidth = blockWidth * width
-        let userHeight = blockWidth * height
+        let userWidth = blockSize * width
+        let userHeight = blockSize * height
         
         guard let context = CGContext( data: nil, width: userWidth, height: userHeight,
                                        bitsPerComponent: 8, bytesPerRow: 4 * userWidth, space: colorSpace,
@@ -41,7 +41,7 @@ class GreekKeyCells {
             
         context.interpolationQuality = .high
         context.setAllowsAntialiasing( true )
-        context.scaleBy( x: CGFloat(blockWidth), y: CGFloat(blockWidth) )
+        context.scaleBy( x: CGFloat(blockSize), y: CGFloat(blockSize) )
         
         context.setFillColor( bgColor )
         context.fill( CGRect( x: 0, y: 0, width: context.width, height: context.height ) )

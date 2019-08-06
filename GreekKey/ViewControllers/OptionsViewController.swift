@@ -82,7 +82,7 @@ class OptionsViewController: NSViewController {
         let bgColor = backgroundColorWell.color.cgColor
         let width = rvc.imageView.bounds.width
         let height = rvc.imageView.bounds.height
-        let generator = GreekKeyCells( blockWidth: blockSize, fgColor: fgColor, bgColor: bgColor )
+        let generator = GreekKeyCells( blockSize: blockSize, fgColor: fgColor, bgColor: bgColor )
         
         return GreekKeyBorder( generator: generator, width: Int(width), height: Int(height) )
     }

@@ -26,12 +26,12 @@ class GreekKeyBorder {
         self.width = width
         self.height = height
         
-        xBlocks      = width / generator.blockWidth
-        yBlocks      = height / generator.blockWidth
+        xBlocks      = width / generator.blockSize
+        yBlocks      = height / generator.blockSize
         xCells       = ( xBlocks - 2 * generator.maxWidth + 1 ) / generator.minWidth
         yCells       = ( yBlocks - 2 * generator.maxWidth + 1 ) / generator.minWidth
-        borderWidth  = generator.blockWidth * ( xCells * generator.minWidth + 2 * generator.maxWidth - 1 )
-        borderHeight = generator.blockWidth * ( yCells * generator.minWidth + 2 * generator.maxWidth - 1 )
+        borderWidth  = generator.blockSize * ( xCells * generator.minWidth + 2 * generator.maxWidth - 1 )
+        borderHeight = generator.blockSize * ( yCells * generator.minWidth + 2 * generator.maxWidth - 1 )
         leftMargin   = ( width - borderWidth ) / 2
         bottomMargin = ( height - borderHeight ) / 2
     }
