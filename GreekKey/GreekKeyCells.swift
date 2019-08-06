@@ -17,7 +17,6 @@ class GreekKeyCells {
     let blockSize: Int
     let fgColor:   CGColor
     let bgColor:   CGColor
-    var context:   CGContext?
     
     var minWidth:   Int          { return GreekKeyCells.minWidth }
     var midWidth:   Int          { return GreekKeyCells.midWidth }
@@ -31,14 +30,14 @@ class GreekKeyCells {
     }
     
 
-    func setupContext( width: Int, height: Int ) -> Void {
+    func setupContext( width: Int, height: Int ) -> CGContext? {
         let userWidth  = blockSize * width
         let userHeight = blockSize * height
         
         guard let context = CGContext( data: nil, width: userWidth, height: userHeight,
                                        bitsPerComponent: 8, bytesPerRow: 4 * userWidth, space: colorSpace,
                                        bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue )
-        else { return }
+        else { return nil }
             
         context.interpolationQuality = .high
         context.setAllowsAntialiasing( true )
@@ -48,11 +47,11 @@ class GreekKeyCells {
         context.fill( CGRect( x: 0, y: 0, width: context.width, height: context.height ) )
         context.setFillColor( fgColor )
 
-        self.context = context
+        return context
     }
     
     
-    func makeImage() -> CGImage {
+    func makeImage( context: CGContext? ) -> CGImage {
         guard let image = context?.makeImage() else {
             fatalError( "Unable to create image" )
         }
@@ -85,7 +84,7 @@ class GreekKeyCells {
     }
     
     
-    func bendHorizontal() -> Void {
+    func bendHorizontal( context: CGContext? ) -> Void {
         context?.beginPath()
         context?.move(    to: CGPoint( x: 0, y: 2 ) )
         context?.addLine( to: CGPoint( x: 4, y: 2 ) )
@@ -106,21 +105,22 @@ class GreekKeyCells {
     }
 
 
-    func bendVertical() -> Void {
+    func bendVertical( context: CGContext? ) -> Void {
         context?.saveGState()
         context?.translateBy( x: CGFloat( maxWidth / 2 ), y: CGFloat( minWidth / 2 ) )
         context?.rotate( by: -CGFloat.pi / 2 )
         context?.translateBy( x: CGFloat( -maxWidth / 2 ), y: CGFloat( -minWidth / 2 ) )
         context?.translateBy( x: 1, y: -1 )
-        bendHorizontal()
+        bendHorizontal( context: context )
         context?.restoreGState()
     }
     
     
     lazy var topLeft: CGImage = {
-        setupContext( width: maxWidth, height: maxWidth )
+        let context = setupContext( width: maxWidth, height: maxWidth )
+        
         context?.saveGState()
-        bendVertical()
+        bendVertical( context: context )
         context?.restoreGState()
         context?.fill( CGRect( x: 0, y: 0, width: 1, height: 9 ) )
         context?.fill( CGRect( x: 0, y: 8, width: 9, height: 1 ) )
@@ -128,66 +128,71 @@ class GreekKeyCells {
         context?.fill( CGRect( x: 8, y: 2, width: 1, height: 5 ) )
         context?.fill( CGRect( x: 8, y: 0, width: 1, height: 1 ) )
 
-        return makeImage()
+        return makeImage( context: context )
     }()
     
     
     lazy var topRight: CGImage = {
-        setupContext( width: midWidth, height: maxWidth )
-        bendHorizontal()
+        let context = setupContext( width: midWidth, height: maxWidth )
+        
+        bendHorizontal( context: context )
         context?.fill( CGRect( x: 0, y: 8, width: 8, height: 1 ) )
         context?.fill( CGRect( x: 7, y: 0, width: 1, height: 9 ) )
         context?.fill( CGRect( x: 1, y: 0, width: 5, height: 1 ) )
         context?.fill( CGRect( x: 5, y: 1, width: 1, height: 1 ) )
 
-        return makeImage()
+        return makeImage( context: context )
     }()
     
     
     lazy var horizontal: CGImage = {
-        setupContext( width: minWidth, height: maxWidth )
-        bendHorizontal()
+        let context = setupContext( width: minWidth, height: maxWidth )
+        
+        bendHorizontal( context: context )
         context?.fill( CGRect( x: 0, y: 0, width: 6, height: 1 ) )
         context?.fill( CGRect( x: 0, y: 8, width: 6, height: 1 ) )
 
-        return makeImage()
+        return makeImage( context: context )
     }()
     
     
     lazy var botLeft: CGImage = {
-        setupContext( width: maxWidth, height: midWidth )
+        let context = setupContext( width: maxWidth, height: midWidth )
+        
         context?.saveGState()
         context?.translateBy( x: 3, y: 0 )
-        bendHorizontal()
+        bendHorizontal( context: context )
         context?.restoreGState()
         context?.fill( CGRect( x: 0, y: 0, width: 9, height: 1 ) )
         context?.fill( CGRect( x: 0, y: 0, width: 1, height: 8 ) )
         context?.fill( CGRect( x: 2, y: 2, width: 1, height: 6 ) )
 
-        return makeImage()
+        return makeImage( context: context )
     }()
     
     
     lazy var botRight: CGImage = {
-        setupContext( width: midWidth, height: midWidth )
+        let context = setupContext( width: midWidth, height: midWidth )
+        
         context?.saveGState()
         context?.translateBy( x: -1, y: 2 )
-        bendVertical()
+        bendVertical( context: context )
         context?.restoreGState()
         context?.fill( CGRect( x: 0, y: 0, width: 8, height: 1 ) )
         context?.fill( CGRect( x: 7, y: 0, width: 1, height: 8 ) )
         context?.fill( CGRect( x: 0, y: 2, width: 1, height: 1 ) )
 
-        return makeImage()
+        return makeImage( context: context )
     }()
     
     
     lazy var vertical: CGImage = {
-        setupContext( width: maxWidth, height: minWidth )
-        bendVertical()
+        let context = setupContext( width: maxWidth, height: minWidth )
+        
+        bendVertical( context: context )
         context?.fill( CGRect( x: 0, y: 0, width: 1, height: 6 ) )
         context?.fill( CGRect( x: 8, y: 0, width: 1, height: 6 ) )
 
-        return makeImage()
+        return makeImage( context: context )
     }()
 }
