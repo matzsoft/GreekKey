@@ -9,29 +9,30 @@
 import Foundation
 
 class GreekKeyCells {
-    let blockSize:  Int
-    let fgColor:    CGColor
-    let bgColor:    CGColor
-    let minWidth:   Int
-    let midWidth:   Int
-    let maxWidth:   Int
-    let colorSpace: CGColorSpace
-    var context:    CGContext?
+    static let minWidth   = 6
+    static let midWidth   = 8
+    static let maxWidth   = 9
+    static let colorSpace = CGColorSpace( name: CGColorSpace.sRGB )!
+    
+    let blockSize: Int
+    let fgColor:   CGColor
+    let bgColor:   CGColor
+    var context:   CGContext?
+    
+    var minWidth:   Int          { return GreekKeyCells.minWidth }
+    var midWidth:   Int          { return GreekKeyCells.midWidth }
+    var maxWidth:   Int          { return GreekKeyCells.maxWidth }
+    var colorSpace: CGColorSpace { return GreekKeyCells.colorSpace }
 
     init( blockSize: Int, fgColor: CGColor, bgColor: CGColor ) {
-        self.blockSize  = blockSize
-        self.fgColor    = fgColor
-        self.bgColor    = bgColor
-        
-        minWidth   = 6
-        midWidth   = 8
-        maxWidth   = 9
-        colorSpace = CGColorSpace( name: CGColorSpace.sRGB )!
+        self.blockSize = blockSize
+        self.fgColor   = fgColor
+        self.bgColor   = bgColor
     }
     
 
     func setupContext( width: Int, height: Int ) -> Void {
-        let userWidth = blockSize * width
+        let userWidth  = blockSize * width
         let userHeight = blockSize * height
         
         guard let context = CGContext( data: nil, width: userWidth, height: userHeight,
