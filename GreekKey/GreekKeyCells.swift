@@ -30,6 +30,15 @@ class GreekKeyCells {
     }
     
 
+    static func maxBlockSize( forImageSize: Int ) -> Int {
+        return forImageSize / ( maxWidth + minWidth + midWidth )
+    }
+    
+    static func minImageSize( forBlockSize bs: Int ) -> Int {
+        return bs * maxWidth + bs * minWidth + bs * midWidth
+    }
+    
+    
     func setupContext( width: Int, height: Int ) -> CGContext? {
         let userWidth  = blockSize * width
         let userHeight = blockSize * height

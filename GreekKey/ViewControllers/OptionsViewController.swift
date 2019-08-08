@@ -31,6 +31,7 @@ class OptionsViewController: NSViewController {
         foregroundColorWell.color = NSColor.black
         backgroundColorWell.color = NSColor.white
         
+        setSliderMax()
         updateBorder()
     }
     
@@ -71,6 +72,15 @@ class OptionsViewController: NSViewController {
                 CGImageDestinationAddImage( dest, image, nil )
                 CGImageDestinationFinalize( dest )
             }
+        }
+    }
+    
+    func setSliderMax() -> Void {
+        if let bounds = resultsViewController?.imageView.bounds {
+            let size = min( bounds.width, bounds.height )
+            let maxBlockSize = GreekKeyCells.maxBlockSize( forImageSize: Int(size) )
+            
+            blockSizeSlider.maxValue = Double(maxBlockSize)
         }
     }
     
