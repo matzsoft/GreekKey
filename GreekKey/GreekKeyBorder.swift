@@ -110,14 +110,14 @@ class GreekKeyBorder {
         drawBounds( context: context, rect: CGRect(
             x: leftMargin,
             y: bottomMargin,
-            width: botL.width + xCells * horz.width + botR.width,
-            height: botL.height + yCells * vert.height + topL.height
+            width: borderWidth,
+            height: borderHeight
         ) )
         drawBounds( context: context, rect: CGRect(
-            x: leftMargin + botL.width - generator.blockSize,
-            y: bottomMargin + botL.height,
-            width: generator.blockSize + xCells * horz.width,
-            height: yCells * vert.height + generator.blockSize
+            x: leftMargin + generator.midWidth * generator.blockSize,
+            y: bottomMargin + generator.midWidth * generator.blockSize,
+            width: generator.blockSize * ( xCells * generator.minWidth + 1 ),
+            height: generator.blockSize * ( yCells * generator.minWidth + 1 )
         ) )
         
         return context.makeImage()
