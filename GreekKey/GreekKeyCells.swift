@@ -135,9 +135,8 @@ class GreekKeyCells {
         let context = setupContext( width: midWidth, height: maxWidth )
         
         bendHorizontal( context: context )
-        context?.move(    to: CGPoint( x:  3, y: 1 ) )
         context?.addLine( to: CGPoint( x: 11, y: 1 ) )
-        context?.addLine( to: CGPoint( x: 11, y: 3 ) )
+        context?.addLine( to: CGPoint( x:  3, y: 1 ) )
 
         return makeImage( context: context )
     }()
@@ -155,11 +154,9 @@ class GreekKeyCells {
     lazy var botLeft: CGImage = {
         let context = setupContext( width: maxWidth, height: midWidth )
         
-        context?.saveGState()
         context?.translateBy( x: 6, y: 0 )
         bendHorizontal( context: context )
-        context?.restoreGState()
-        context?.addLines( between: [ CGPoint( x: 5, y: 5 ), CGPoint( x: 5, y: 15 ) ] )
+        context?.addLines( between: [ CGPoint( x: -1, y: 5 ), CGPoint( x: -1, y: 15 ) ] )
 
         return makeImage( context: context )
     }()
@@ -168,11 +165,9 @@ class GreekKeyCells {
     lazy var botRight: CGImage = {
         let context = setupContext( width: midWidth, height: midWidth )
         
-        context?.saveGState()
         context?.translateBy( x: -2, y: 4 )
         bendVertical( context: context )
-        context?.restoreGState()
-        context?.addLines( between: [ CGPoint( x: 1, y: 5 ), CGPoint( x: 3, y: 5 ) ] )
+        context?.addLine( to: CGPoint( x: 3, y: 1 ) )
 
         return makeImage( context: context )
     }()
