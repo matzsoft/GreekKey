@@ -36,6 +36,33 @@ class GreekKeyBorder {
         bottomMargin = ( height - borderHeight ) / 2
     }
     
+    func drawBounds( context: CGContext, rect: CGRect ) -> Void {
+        context.addRect( CGRect(
+            x: rect.minX,
+            y: rect.minY,
+            width: rect.width,
+            height: CGFloat( generator.blockSize )
+        ) )
+        context.addRect( CGRect(
+            x: rect.minX,
+            y: rect.maxY - CGFloat( generator.blockSize ),
+            width: rect.width,
+            height: CGFloat( generator.blockSize )
+        ) )
+        context.addRect( CGRect(
+            x: rect.minX,
+            y: rect.minY,
+            width: CGFloat( generator.blockSize ),
+            height: rect.height
+        ) )
+        context.addRect( CGRect(
+            x: rect.maxX - CGFloat( generator.blockSize ),
+            y: rect.minY,
+            width: CGFloat( generator.blockSize ),
+            height: rect.height
+        ) )
+    }
+
     func draw() -> CGImage? {
         guard let context = CGContext( data: nil, width: width, height: height, bitsPerComponent: 8,
                                        bytesPerRow: 4 * width, space: generator.colorSpace,
@@ -93,6 +120,23 @@ class GreekKeyBorder {
             context.draw( vert, in: CGRect( x: x, y: y, width: vert.width, height: vert.height ) )
             y += vert.height
         }
+        
+        context.beginPath()
+        drawBounds( context: context, rect: CGRect(
+            x: leftMargin,
+            y: bottomMargin,
+            width: botL.width + xCells * horz.width + botR.width,
+            height: botL.height + yCells * vert.height + topL.height
+        ) )
+        drawBounds( context: context, rect: CGRect(
+            x: leftMargin + botL.width - generator.blockSize,
+            y: bottomMargin + botL.height,
+            width: generator.blockSize + xCells * horz.width,
+            height: yCells * vert.height + generator.blockSize
+        ) )
+        context.setFillColor( generator.fgColor )
+        context.closePath()
+        context.fillPath()
         
         return context.makeImage()
     }
