@@ -61,6 +61,8 @@ class GreekKeyCells {
     
     
     func makeImage( context: CGContext? ) -> CGImage {
+        context?.closePath();
+        context?.fillPath()
         guard let image = context?.makeImage() else {
             fatalError( "Unable to create image" )
         }
@@ -109,8 +111,7 @@ class GreekKeyCells {
         context?.addLine( to: CGPoint( x: 3, y: 4 ) )
         context?.addLine( to: CGPoint( x: 3, y: 3 ) )
         context?.addLine( to: CGPoint( x: 0, y: 3 ) )
-        context?.closePath();
-        context?.fillPath()
+        context?.addLine( to: CGPoint( x: 0, y: 2 ) )
     }
 
 
@@ -128,14 +129,12 @@ class GreekKeyCells {
     lazy var topLeft: CGImage = {
         let context = setupContext( width: maxWidth, height: maxWidth )
         
-        context?.saveGState()
         bendVertical( context: context )
-        context?.restoreGState()
-        context?.fill( CGRect( x: 0, y: 0, width: 1, height: 9 ) )
-        context?.fill( CGRect( x: 0, y: 8, width: 9, height: 1 ) )
-        context?.fill( CGRect( x: 2, y: 6, width: 7, height: 1 ) )
-        context?.fill( CGRect( x: 8, y: 2, width: 1, height: 5 ) )
-        context?.fill( CGRect( x: 8, y: 0, width: 1, height: 1 ) )
+        context?.addRect( CGRect( x: 0, y: 0, width: 1, height: 9 ) )
+        context?.addRect( CGRect( x: 0, y: 8, width: 9, height: 1 ) )
+        context?.addRect( CGRect( x: 2, y: 6, width: 7, height: 1 ) )
+        context?.addRect( CGRect( x: 8, y: 2, width: 1, height: 5 ) )
+        context?.addRect( CGRect( x: 8, y: 0, width: 1, height: 1 ) )
 
         return makeImage( context: context )
     }()
@@ -145,10 +144,10 @@ class GreekKeyCells {
         let context = setupContext( width: midWidth, height: maxWidth )
         
         bendHorizontal( context: context )
-        context?.fill( CGRect( x: 0, y: 8, width: 8, height: 1 ) )
-        context?.fill( CGRect( x: 7, y: 0, width: 1, height: 9 ) )
-        context?.fill( CGRect( x: 1, y: 0, width: 5, height: 1 ) )
-        context?.fill( CGRect( x: 5, y: 1, width: 1, height: 1 ) )
+        context?.addRect( CGRect( x: 0, y: 8, width: 8, height: 1 ) )
+        context?.addRect( CGRect( x: 7, y: 0, width: 1, height: 9 ) )
+        context?.addRect( CGRect( x: 1, y: 0, width: 5, height: 1 ) )
+        context?.addRect( CGRect( x: 5, y: 1, width: 1, height: 1 ) )
 
         return makeImage( context: context )
     }()
@@ -158,8 +157,8 @@ class GreekKeyCells {
         let context = setupContext( width: minWidth, height: maxWidth )
         
         bendHorizontal( context: context )
-        context?.fill( CGRect( x: 0, y: 0, width: 6, height: 1 ) )
-        context?.fill( CGRect( x: 0, y: 8, width: 6, height: 1 ) )
+        context?.addRect( CGRect( x: 0, y: 0, width: 6, height: 1 ) )
+        context?.addRect( CGRect( x: 0, y: 8, width: 6, height: 1 ) )
 
         return makeImage( context: context )
     }()
@@ -172,9 +171,9 @@ class GreekKeyCells {
         context?.translateBy( x: 3, y: 0 )
         bendHorizontal( context: context )
         context?.restoreGState()
-        context?.fill( CGRect( x: 0, y: 0, width: 9, height: 1 ) )
-        context?.fill( CGRect( x: 0, y: 0, width: 1, height: 8 ) )
-        context?.fill( CGRect( x: 2, y: 2, width: 1, height: 6 ) )
+        context?.addRect( CGRect( x: 0, y: 0, width: 9, height: 1 ) )
+        context?.addRect( CGRect( x: 0, y: 0, width: 1, height: 8 ) )
+        context?.addRect( CGRect( x: 2, y: 2, width: 1, height: 6 ) )
 
         return makeImage( context: context )
     }()
@@ -187,9 +186,9 @@ class GreekKeyCells {
         context?.translateBy( x: -1, y: 2 )
         bendVertical( context: context )
         context?.restoreGState()
-        context?.fill( CGRect( x: 0, y: 0, width: 8, height: 1 ) )
-        context?.fill( CGRect( x: 7, y: 0, width: 1, height: 8 ) )
-        context?.fill( CGRect( x: 0, y: 2, width: 1, height: 1 ) )
+        context?.addRect( CGRect( x: 0, y: 0, width: 8, height: 1 ) )
+        context?.addRect( CGRect( x: 7, y: 0, width: 1, height: 8 ) )
+        context?.addRect( CGRect( x: 0, y: 2, width: 1, height: 1 ) )
 
         return makeImage( context: context )
     }()
@@ -199,8 +198,8 @@ class GreekKeyCells {
         let context = setupContext( width: maxWidth, height: minWidth )
         
         bendVertical( context: context )
-        context?.fill( CGRect( x: 0, y: 0, width: 1, height: 6 ) )
-        context?.fill( CGRect( x: 8, y: 0, width: 1, height: 6 ) )
+        context?.addRect( CGRect( x: 0, y: 0, width: 1, height: 6 ) )
+        context?.addRect( CGRect( x: 8, y: 0, width: 1, height: 6 ) )
 
         return makeImage( context: context )
     }()
