@@ -50,19 +50,20 @@ class GreekKeyCells {
             
         context.interpolationQuality = .high
         context.setAllowsAntialiasing( true )
-        context.scaleBy( x: CGFloat(blockSize), y: CGFloat(blockSize) )
+        context.scaleBy( x: CGFloat(blockSize) / 2, y: CGFloat(blockSize) / 2 )
         
         context.setFillColor( bgColor )
         context.fill( CGRect( x: 0, y: 0, width: context.width, height: context.height ) )
-        context.setFillColor( fgColor )
+        context.setStrokeColor( fgColor )
 
         return context
     }
     
     
     func makeImage( context: CGContext? ) -> CGImage {
-        context?.closePath();
-        context?.fillPath()
+        context?.setLineWidth( 2 )
+        context?.setLineCap( .square )
+        context?.strokePath()
         guard let image = context?.makeImage() else {
             fatalError( "Unable to create image" )
         }
@@ -97,30 +98,22 @@ class GreekKeyCells {
     
     func bendHorizontal( context: CGContext? ) -> Void {
         context?.beginPath()
-        context?.move(    to: CGPoint( x: 0, y: 2 ) )
-        context?.addLine( to: CGPoint( x: 4, y: 2 ) )
-        context?.addLine( to: CGPoint( x: 4, y: 5 ) )
-        context?.addLine( to: CGPoint( x: 2, y: 5 ) )
-        context?.addLine( to: CGPoint( x: 2, y: 6 ) )
-        context?.addLine( to: CGPoint( x: 5, y: 6 ) )
-        context?.addLine( to: CGPoint( x: 5, y: 2 ) )
-        context?.addLine( to: CGPoint( x: 6, y: 2 ) )
-        context?.addLine( to: CGPoint( x: 6, y: 7 ) )
-        context?.addLine( to: CGPoint( x: 1, y: 7 ) )
-        context?.addLine( to: CGPoint( x: 1, y: 4 ) )
-        context?.addLine( to: CGPoint( x: 3, y: 4 ) )
-        context?.addLine( to: CGPoint( x: 3, y: 3 ) )
-        context?.addLine( to: CGPoint( x: 0, y: 3 ) )
-        context?.addLine( to: CGPoint( x: 0, y: 2 ) )
+        context?.move(    to: CGPoint( x:  1, y:  5 ) )
+        context?.addLine( to: CGPoint( x:  7, y:  5 ) )
+        context?.addLine( to: CGPoint( x:  7, y:  9 ) )
+        context?.addLine( to: CGPoint( x:  3, y:  9 ) )
+        context?.addLine( to: CGPoint( x:  3, y: 13 ) )
+        context?.addLine( to: CGPoint( x: 11, y: 13 ) )
+        context?.addLine( to: CGPoint( x: 11, y:  5 ) )
     }
 
 
     func bendVertical( context: CGContext? ) -> Void {
         context?.saveGState()
-        context?.translateBy( x: CGFloat( maxWidth / 2 ), y: CGFloat( minWidth / 2 ) )
+        context?.translateBy( x: CGFloat( maxWidth ), y: CGFloat( minWidth ) )
         context?.rotate( by: -CGFloat.pi / 2 )
-        context?.translateBy( x: CGFloat( -maxWidth / 2 ), y: CGFloat( -minWidth / 2 ) )
-        context?.translateBy( x: 1, y: -1 )
+        context?.translateBy( x: CGFloat( -maxWidth ), y: CGFloat( -minWidth ) )
+        context?.translateBy( x: 3, y: -3 )
         bendHorizontal( context: context )
         context?.restoreGState()
     }
@@ -130,8 +123,9 @@ class GreekKeyCells {
         let context = setupContext( width: maxWidth, height: maxWidth )
         
         bendVertical( context: context )
-        context?.addRect( CGRect( x: 2, y: 6, width: 7, height: 1 ) )
-        context?.addRect( CGRect( x: 8, y: 2, width: 1, height: 5 ) )
+        context?.move(    to: CGPoint( x:  5, y: 13 ) )
+        context?.addLine( to: CGPoint( x: 17, y: 13 ) )
+        context?.addLine( to: CGPoint( x: 17, y:  5 ) )
 
         return makeImage( context: context )
     }()
@@ -141,8 +135,9 @@ class GreekKeyCells {
         let context = setupContext( width: midWidth, height: maxWidth )
         
         bendHorizontal( context: context )
-        context?.addRect( CGRect( x: 1, y: 0, width: 5, height: 1 ) )
-        context?.addRect( CGRect( x: 5, y: 1, width: 1, height: 1 ) )
+        context?.move(    to: CGPoint( x:  3, y: 1 ) )
+        context?.addLine( to: CGPoint( x: 11, y: 1 ) )
+        context?.addLine( to: CGPoint( x: 11, y: 3 ) )
 
         return makeImage( context: context )
     }()
@@ -161,10 +156,10 @@ class GreekKeyCells {
         let context = setupContext( width: maxWidth, height: midWidth )
         
         context?.saveGState()
-        context?.translateBy( x: 3, y: 0 )
+        context?.translateBy( x: 6, y: 0 )
         bendHorizontal( context: context )
         context?.restoreGState()
-        context?.addRect( CGRect( x: 2, y: 2, width: 1, height: 6 ) )
+        context?.addLines( between: [ CGPoint( x: 5, y: 5 ), CGPoint( x: 5, y: 15 ) ] )
 
         return makeImage( context: context )
     }()
@@ -174,10 +169,10 @@ class GreekKeyCells {
         let context = setupContext( width: midWidth, height: midWidth )
         
         context?.saveGState()
-        context?.translateBy( x: -1, y: 2 )
+        context?.translateBy( x: -2, y: 4 )
         bendVertical( context: context )
         context?.restoreGState()
-        context?.addRect( CGRect( x: 0, y: 2, width: 1, height: 1 ) )
+        context?.addLines( between: [ CGPoint( x: 1, y: 5 ), CGPoint( x: 3, y: 5 ) ] )
 
         return makeImage( context: context )
     }()
