@@ -37,29 +37,15 @@ class GreekKeyBorder {
     }
     
     func drawBounds( context: CGContext, rect: CGRect ) -> Void {
-        context.addRect( CGRect(
-            x: rect.minX,
-            y: rect.minY,
-            width: rect.width,
-            height: CGFloat( generator.blockSize )
-        ) )
-        context.addRect( CGRect(
-            x: rect.minX,
-            y: rect.maxY - CGFloat( generator.blockSize ),
-            width: rect.width,
-            height: CGFloat( generator.blockSize )
-        ) )
-        context.addRect( CGRect(
-            x: rect.minX,
-            y: rect.minY,
-            width: CGFloat( generator.blockSize ),
-            height: rect.height
-        ) )
-        context.addRect( CGRect(
-            x: rect.maxX - CGFloat( generator.blockSize ),
-            y: rect.minY,
-            width: CGFloat( generator.blockSize ),
-            height: rect.height
+        let halfWidth = CGFloat( generator.blockSize ) / 2
+        
+        context.setStrokeColor( generator.fgColor )
+        context.setLineWidth( CGFloat( generator.blockSize ) )
+        context.stroke( CGRect(
+            x: rect.minX + halfWidth,
+            y: rect.minY + halfWidth,
+            width: rect.width - CGFloat( generator.blockSize ),
+            height: rect.height - CGFloat( generator.blockSize )
         ) )
     }
 
@@ -121,7 +107,6 @@ class GreekKeyBorder {
             y += vert.height
         }
         
-        context.beginPath()
         drawBounds( context: context, rect: CGRect(
             x: leftMargin,
             y: bottomMargin,
@@ -134,9 +119,6 @@ class GreekKeyBorder {
             width: generator.blockSize + xCells * horz.width,
             height: yCells * vert.height + generator.blockSize
         ) )
-        context.setFillColor( generator.fgColor )
-        context.closePath()
-        context.fillPath()
         
         return context.makeImage()
     }
