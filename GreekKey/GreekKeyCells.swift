@@ -52,8 +52,6 @@ class GreekKeyCells {
         context.setAllowsAntialiasing( true )
         context.scaleBy( x: CGFloat(blockSize) / 2, y: CGFloat(blockSize) / 2 )
         
-        context.setFillColor( bgColor )
-        context.fill( CGRect( x: 0, y: 0, width: context.width, height: context.height ) )
         context.setStrokeColor( fgColor )
 
         return context

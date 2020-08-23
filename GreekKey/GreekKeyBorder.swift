@@ -36,20 +36,20 @@ class GreekKeyBorder {
         bottomMargin = ( height - borderHeight ) / 2
     }
     
-    func drawBounds( context: CGContext, rect: CGRect ) -> Void {
-        let halfWidth = CGFloat( generator.blockSize ) / 2
+    func drawBounds( context: CGContext, thickness: CGFloat, rect: CGRect ) -> Void {
+        let halfWidth = thickness / 2
         
-        context.setStrokeColor( generator.fgColor )
-        context.setLineWidth( CGFloat( generator.blockSize ) )
+        context.setLineWidth( thickness )
         context.stroke( CGRect(
             x: rect.minX + halfWidth,
             y: rect.minY + halfWidth,
-            width: rect.width - CGFloat( generator.blockSize ),
-            height: rect.height - CGFloat( generator.blockSize )
+            width: rect.width - thickness,
+            height: rect.height - thickness
         ) )
     }
 
     func draw() -> CGImage? {
+        guard xCells > 0 && yCells > 0 else { return nil }
         guard let context = CGContext( data: nil, width: width, height: height, bitsPerComponent: 8,
                                        bytesPerRow: 4 * width, space: generator.colorSpace,
                                        bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue )
@@ -57,11 +57,29 @@ class GreekKeyBorder {
         
         context.interpolationQuality = .high
         context.setAllowsAntialiasing( true )
+        context.translateBy( x: CGFloat( leftMargin ), y: CGFloat( bottomMargin ) )
         
-        guard xCells > 0 && yCells > 0 else { return nil }
+        context.setStrokeColor( generator.bgColor )
+        drawBounds(
+            context: context,
+            thickness: CGFloat( generator.midWidth * generator.blockSize ),
+            rect: CGRect( x: 0, y: 0, width: borderWidth, height: borderHeight )
+        )
+        context.setStrokeColor( generator.fgColor )
+        drawBounds(
+            context: context,
+            thickness: CGFloat( generator.blockSize ),
+            rect: CGRect( x: 0, y: 0, width: borderWidth, height: borderHeight )
+        )
+        drawBounds( context: context, thickness: CGFloat( generator.blockSize ), rect: CGRect(
+            x: generator.midWidth * generator.blockSize,
+            y: generator.midWidth * generator.blockSize,
+            width: generator.blockSize * ( xCells * generator.minWidth + 1 ),
+            height: generator.blockSize * ( yCells * generator.minWidth + 1 )
+        ) )
         
-        var x = leftMargin
-        var y = bottomMargin
+        var x = 0
+        var y = 0
         let botL = generator.botLeft
         let topL = generator.topLeft
         let topR = generator.topRight
@@ -81,7 +99,7 @@ class GreekKeyBorder {
         context.draw( botR, in: CGRect( x: x, y: y, width: botR.width, height: botR.height ) )
         
         // Create cells up the left
-        x = leftMargin
+        x = 0
         y = y + botL.height
         for _ in 1 ... yCells {
             context.draw( vert, in: CGRect( x: x, y: y, width: vert.width, height: vert.height ) )
@@ -91,7 +109,7 @@ class GreekKeyBorder {
         context.draw( topL, in: CGRect( x: x, y: y, width: topL.width, height: topL.height ) )
         
         // Create cells across the top
-        x = leftMargin + topL.width
+        x = topL.width
         for _ in 1 ... xCells {
             context.draw( horz, in: CGRect( x: x, y: y, width: horz.width, height: horz.height ) )
             x += horz.width
@@ -101,24 +119,11 @@ class GreekKeyBorder {
         
         // Create cells up the right
         x += topR.width - vert.width
-        y = bottomMargin + botR.height
+        y = botR.height
         for _ in 1 ... yCells {
             context.draw( vert, in: CGRect( x: x, y: y, width: vert.width, height: vert.height ) )
             y += vert.height
         }
-        
-        drawBounds( context: context, rect: CGRect(
-            x: leftMargin,
-            y: bottomMargin,
-            width: borderWidth,
-            height: borderHeight
-        ) )
-        drawBounds( context: context, rect: CGRect(
-            x: leftMargin + generator.midWidth * generator.blockSize,
-            y: bottomMargin + generator.midWidth * generator.blockSize,
-            width: generator.blockSize * ( xCells * generator.minWidth + 1 ),
-            height: generator.blockSize * ( yCells * generator.minWidth + 1 )
-        ) )
         
         return context.makeImage()
     }
