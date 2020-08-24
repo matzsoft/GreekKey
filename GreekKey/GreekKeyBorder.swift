@@ -78,53 +78,29 @@ class GreekKeyBorder {
             height: generator.blockSize * ( yCells * generator.minWidth + 1 )
         ) )
         
-        var x = 0
-        var y = 0
-        let botL = generator.botLeft
-        let topL = generator.topLeft
-        let topR = generator.topRight
-        let botR = generator.botRight
-        let horz = generator.horizontal
-        let vert = generator.vertical
-        
         // Create cells across the bottom
-        context.draw( botL, in: CGRect( x: x, y: y, width: botL.width, height: botL.height ) )
-        x += botL.width
-        
-        for _ in 1 ... xCells {
-            context.draw( horz, in: CGRect( x: x, y: y, width: horz.width, height: horz.height ) )
-            x += horz.width
-        }
-        
-        context.draw( botR, in: CGRect( x: x, y: y, width: botR.width, height: botR.height ) )
-        
-        // Create cells up the left
-        x = 0
-        y = y + botL.height
-        for _ in 1 ... yCells {
-            context.draw( vert, in: CGRect( x: x, y: y, width: vert.width, height: vert.height ) )
-            y += vert.height
-        }
-        
-        context.draw( topL, in: CGRect( x: x, y: y, width: topL.width, height: topL.height ) )
-        
-        // Create cells across the top
-        x = topL.width
-        for _ in 1 ... xCells {
-            context.draw( horz, in: CGRect( x: x, y: y, width: horz.width, height: horz.height ) )
-            x += horz.width
-        }
-        
-        context.draw( topR, in: CGRect( x: x, y: y, width: topR.width, height: topR.height ) )
+        context.scaleBy( x: CGFloat( generator.blockSize ) / 2, y: CGFloat( generator.blockSize ) / 2 )
+        context.saveGState()
+        generator.botLeft( context: context )
+        for _ in 1 ... xCells { generator.horizontal( context: context ) }
+        generator.botRight( context: context )
         
         // Create cells up the right
-        x += topR.width - vert.width
-        y = botR.height
-        for _ in 1 ... yCells {
-            context.draw( vert, in: CGRect( x: x, y: y, width: vert.width, height: vert.height ) )
-            y += vert.height
-        }
+        for _ in 1 ... yCells { generator.vertical( context: context ) }
         
+        // Create cells up the left
+        context.restoreGState()
+        context.translateBy( x: 0, y: CGFloat( 2 * generator.midWidth ) )
+        for _ in 1 ... yCells { generator.vertical( context: context ) }
+        generator.topLeft( context: context )
+        
+        // Create cells across the top
+        for _ in 1 ... xCells { generator.horizontal( context: context ) }
+        generator.topRight( context: context )
+        
+        context.setLineWidth( 2 )
+        context.setLineCap( .square )
+        context.strokePath()
         return context.makeImage()
     }
 }

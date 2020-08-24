@@ -58,44 +58,20 @@ class GreekKeyCells {
     }
     
     
-    func makeImage( context: CGContext? ) -> CGImage {
+    func makeImage( context: CGContext? ) -> CGPath {
         context?.setLineWidth( 2 )
         context?.setLineCap( .square )
-        context?.strokePath()
-        guard let image = context?.makeImage() else {
-            fatalError( "Unable to create image" )
-        }
+//        context?.strokePath()
+        context?.replacePathWithStrokedPath()
+//        guard let image = context?.makeImage() else {
+//            fatalError( "Unable to create image" )
+//        }
         
-        return image
-    }
-    
-    
-    func greekKeyCell( row: Int, col: Int, nrows: Int, ncols: Int ) -> CGImage {
-        switch ( row, col ) {
-        case ( 0, 0 ):
-            return topLeft
-        case ( 0, ncols - 1 ):
-            return topRight
-        case ( 0, _ ):
-            return horizontal
-        case ( nrows - 1, 0 ):
-            return botLeft
-        case ( nrows - 1, ncols - 1 ):
-            return botRight
-        case ( nrows - 1, _ ):
-            return horizontal
-        case ( _, 0 ):
-            return vertical
-        case ( _, ncols - 1 ):
-            return vertical
-        default:
-            return horizontal
-        }
+        return context!.path!
     }
     
     
     func bendHorizontal( context: CGContext? ) -> Void {
-        context?.beginPath()
         context?.move(    to: CGPoint( x:  1, y:  5 ) )
         context?.addLine( to: CGPoint( x:  7, y:  5 ) )
         context?.addLine( to: CGPoint( x:  7, y:  9 ) )
@@ -117,65 +93,55 @@ class GreekKeyCells {
     }
     
     
-    lazy var topLeft: CGImage = {
-        let context = setupContext( width: maxWidth, height: maxWidth )
-        
+    func topLeft( context: CGContext ) -> Void {
         bendVertical( context: context )
-        context?.move(    to: CGPoint( x:  5, y: 13 ) )
-        context?.addLine( to: CGPoint( x: 17, y: 13 ) )
-        context?.addLine( to: CGPoint( x: 17, y:  5 ) )
-
-        return makeImage( context: context )
-    }()
+        context.move(    to: CGPoint( x:  5, y: 13 ) )
+        context.addLine( to: CGPoint( x: 17, y: 13 ) )
+        context.addLine( to: CGPoint( x: 17, y:  5 ) )
+        context.translateBy( x: CGFloat( 2 * maxWidth ), y: 0 )
+    }
     
     
-    lazy var topRight: CGImage = {
-        let context = setupContext( width: midWidth, height: maxWidth )
-        
+    func topRight( context: CGContext ) -> Void {
         bendHorizontal( context: context )
-        context?.addLine( to: CGPoint( x: 11, y: 1 ) )
-        context?.addLine( to: CGPoint( x:  3, y: 1 ) )
-
-        return makeImage( context: context )
-    }()
+        context.addLine( to: CGPoint( x: 11, y: 1 ) )
+        context.addLine( to: CGPoint( x:  3, y: 1 ) )
+        context.translateBy( x: 0, y: CGFloat( -2 * minWidth ) )
+    }
     
     
-    lazy var horizontal: CGImage = {
-        let context = setupContext( width: minWidth, height: maxWidth )
-        
+    func horizontal( context: CGContext ) -> Void {
         bendHorizontal( context: context )
 
-        return makeImage( context: context )
-    }()
+        context.translateBy( x: CGFloat( 2 * minWidth ), y: 0 )
+    }
     
     
-    lazy var botLeft: CGImage = {
-        let context = setupContext( width: maxWidth, height: midWidth )
-        
-        context?.translateBy( x: 6, y: 0 )
+    func botLeft( context: CGContext ) -> Void {
+        context.saveGState()
+        context.translateBy( x: 6, y: 0 )
         bendHorizontal( context: context )
-        context?.addLines( between: [ CGPoint( x: -1, y: 5 ), CGPoint( x: -1, y: 15 ) ] )
+        context.addLines( between: [ CGPoint( x: -1, y: 5 ), CGPoint( x: -1, y: 15 ) ] )
+        context.restoreGState()
 
-        return makeImage( context: context )
-    }()
+        context.translateBy( x: CGFloat( 2 * maxWidth ), y: 0 )
+    }
     
     
-    lazy var botRight: CGImage = {
-        let context = setupContext( width: midWidth, height: midWidth )
-        
-        context?.translateBy( x: -2, y: 4 )
+    func botRight( context: CGContext ) -> Void {
+        context.saveGState()
+        context.translateBy( x: -2, y: 4 )
         bendVertical( context: context )
-        context?.addLine( to: CGPoint( x: 3, y: 1 ) )
+        context.addLine( to: CGPoint( x: 3, y: 1 ) )
+        context.restoreGState()
 
-        return makeImage( context: context )
-    }()
+        context.translateBy( x: -2, y: CGFloat( 2 * midWidth ) )
+    }
     
     
-    lazy var vertical: CGImage = {
-        let context = setupContext( width: maxWidth, height: minWidth )
-        
+    func vertical( context: CGContext ) -> Void {
         bendVertical( context: context )
 
-        return makeImage( context: context )
-    }()
+        context.translateBy( x: 0, y: CGFloat( 2 * minWidth ) )
+    }
 }
