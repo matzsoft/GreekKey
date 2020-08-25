@@ -79,7 +79,7 @@ class GreekKeyBorder {
         ) )
         
         // Create cells across the bottom
-        context.scaleBy( x: CGFloat( generator.blockSize ) / 2, y: CGFloat( generator.blockSize ) / 2 )
+        context.scaleBy( x: CGFloat( generator.blockSize ), y: CGFloat( generator.blockSize ) )
         context.saveGState()
         generator.botLeft( context: context )
         for _ in 1 ... xCells { generator.horizontal( context: context ) }
@@ -90,7 +90,7 @@ class GreekKeyBorder {
         
         // Create cells up the left
         context.restoreGState()
-        context.translateBy( x: 0, y: CGFloat( 2 * generator.midWidth ) )
+        context.translateBy( x: 0, y: CGFloat( generator.midWidth ) )
         for _ in 1 ... yCells { generator.vertical( context: context ) }
         generator.topLeft( context: context )
         
@@ -98,7 +98,7 @@ class GreekKeyBorder {
         for _ in 1 ... xCells { generator.horizontal( context: context ) }
         generator.topRight( context: context )
         
-        context.setLineWidth( 2 )
+        context.setLineWidth( 1 )
         context.setLineCap( .square )
         context.strokePath()
         return context.makeImage()

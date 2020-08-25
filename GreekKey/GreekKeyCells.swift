@@ -47,7 +47,6 @@ class GreekKeyCells {
             
         context.interpolationQuality = .high
         context.setAllowsAntialiasing( true )
-        context.scaleBy( x: 0.5, y: 0.5 )
         
         context.setStrokeColor( fgColor )
 
@@ -56,22 +55,22 @@ class GreekKeyCells {
     
     
     func bendHorizontal( context: CGContext ) -> Void {
-        context.move(    to: CGPoint( x:  1, y:  5 ) )
-        context.addLine( to: CGPoint( x:  7, y:  5 ) )
-        context.addLine( to: CGPoint( x:  7, y:  9 ) )
-        context.addLine( to: CGPoint( x:  3, y:  9 ) )
-        context.addLine( to: CGPoint( x:  3, y: 13 ) )
-        context.addLine( to: CGPoint( x: 11, y: 13 ) )
-        context.addLine( to: CGPoint( x: 11, y:  5 ) )
+        context.move(    to: CGPoint( x: 0.5, y: 2.5 ) )
+        context.addLine( to: CGPoint( x: 3.5, y: 2.5 ) )
+        context.addLine( to: CGPoint( x: 3.5, y: 4.5 ) )
+        context.addLine( to: CGPoint( x: 1.5, y: 4.5 ) )
+        context.addLine( to: CGPoint( x: 1.5, y: 6.5 ) )
+        context.addLine( to: CGPoint( x: 5.5, y: 6.5 ) )
+        context.addLine( to: CGPoint( x: 5.5, y: 2.5 ) )
     }
 
 
     func bendVertical( context: CGContext ) -> Void {
         context.saveGState()
-        context.translateBy( x: CGFloat( maxWidth ), y: CGFloat( minWidth ) )
+        context.translateBy( x: CGFloat( maxWidth ) / 2, y: CGFloat( minWidth ) / 2 )
         context.rotate( by: -CGFloat.pi / 2 )
-        context.translateBy( x: CGFloat( -maxWidth ), y: CGFloat( -minWidth ) )
-        context.translateBy( x: 3, y: -3 )
+        context.translateBy( x: CGFloat( -maxWidth ) / 2, y: CGFloat( -minWidth ) / 2 )
+        context.translateBy( x: 1.5, y: -1.5 )
         bendHorizontal( context: context )
         context.restoreGState()
     }
@@ -79,53 +78,53 @@ class GreekKeyCells {
     
     func topLeft( context: CGContext ) -> Void {
         bendVertical( context: context )
-        context.move(    to: CGPoint( x:  5, y: 13 ) )
-        context.addLine( to: CGPoint( x: 17, y: 13 ) )
-        context.addLine( to: CGPoint( x: 17, y:  5 ) )
-        context.translateBy( x: CGFloat( 2 * maxWidth ), y: 0 )
+        context.move(    to: CGPoint( x: 2.5, y: 6.5 ) )
+        context.addLine( to: CGPoint( x: 8.5, y: 6.5 ) )
+        context.addLine( to: CGPoint( x: 8.5, y: 2.5 ) )
+        context.translateBy( x: CGFloat( maxWidth ), y: 0 )
     }
     
     
     func topRight( context: CGContext ) -> Void {
         bendHorizontal( context: context )
-        context.addLine( to: CGPoint( x: 11, y: 1 ) )
-        context.addLine( to: CGPoint( x:  3, y: 1 ) )
-        context.translateBy( x: 0, y: CGFloat( -2 * minWidth ) )
+        context.addLine( to: CGPoint( x: 5.5, y: 0.5 ) )
+        context.addLine( to: CGPoint( x: 1.5, y: 0.5 ) )
+        context.translateBy( x: 0, y: CGFloat( -minWidth ) )
     }
     
     
     func horizontal( context: CGContext ) -> Void {
         bendHorizontal( context: context )
 
-        context.translateBy( x: CGFloat( 2 * minWidth ), y: 0 )
+        context.translateBy( x: CGFloat( minWidth ), y: 0 )
     }
     
     
     func botLeft( context: CGContext ) -> Void {
         context.saveGState()
-        context.translateBy( x: 6, y: 0 )
+        context.translateBy( x: 3, y: 0 )
         bendHorizontal( context: context )
-        context.addLines( between: [ CGPoint( x: -1, y: 5 ), CGPoint( x: -1, y: 15 ) ] )
+        context.addLines( between: [ CGPoint( x: -0.5, y: 2.5 ), CGPoint( x: -0.5, y: 7.5 ) ] )
         context.restoreGState()
 
-        context.translateBy( x: CGFloat( 2 * maxWidth ), y: 0 )
+        context.translateBy( x: CGFloat( maxWidth ), y: 0 )
     }
     
     
     func botRight( context: CGContext ) -> Void {
         context.saveGState()
-        context.translateBy( x: -2, y: 4 )
+        context.translateBy( x: -1, y: 2 )
         bendVertical( context: context )
-        context.addLine( to: CGPoint( x: 3, y: 1 ) )
+        context.addLine( to: CGPoint( x: 1.5, y: 0.5 ) )
         context.restoreGState()
 
-        context.translateBy( x: -2, y: CGFloat( 2 * midWidth ) )
+        context.translateBy( x: -1, y: CGFloat( midWidth ) )
     }
     
     
     func vertical( context: CGContext ) -> Void {
         bendVertical( context: context )
 
-        context.translateBy( x: 0, y: CGFloat( 2 * minWidth ) )
+        context.translateBy( x: 0, y: CGFloat( minWidth ) )
     }
 }
