@@ -39,18 +39,15 @@ class GreekKeyCells {
     }
     
     
-    func setupContext( width: Int, height: Int ) -> CGContext? {
-        let userWidth  = blockSize * width
-        let userHeight = blockSize * height
-        
-        guard let context = CGContext( data: nil, width: userWidth, height: userHeight,
-                                       bitsPerComponent: 8, bytesPerRow: 4 * userWidth, space: colorSpace,
+    func setupContext( width: Int, height: Int ) -> CGContext {
+        guard let context = CGContext( data: nil, width: width, height: height,
+                                       bitsPerComponent: 8, bytesPerRow: 4 * width, space: colorSpace,
                                        bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue )
-        else { return nil }
+        else { fatalError( "Can't create CGContext for drawing." ) }
             
         context.interpolationQuality = .high
         context.setAllowsAntialiasing( true )
-        context.scaleBy( x: CGFloat(blockSize) / 2, y: CGFloat(blockSize) / 2 )
+        context.scaleBy( x: 0.5, y: 0.5 )
         
         context.setStrokeColor( fgColor )
 
@@ -58,38 +55,25 @@ class GreekKeyCells {
     }
     
     
-    func makeImage( context: CGContext? ) -> CGPath {
-        context?.setLineWidth( 2 )
-        context?.setLineCap( .square )
-//        context?.strokePath()
-        context?.replacePathWithStrokedPath()
-//        guard let image = context?.makeImage() else {
-//            fatalError( "Unable to create image" )
-//        }
-        
-        return context!.path!
-    }
-    
-    
-    func bendHorizontal( context: CGContext? ) -> Void {
-        context?.move(    to: CGPoint( x:  1, y:  5 ) )
-        context?.addLine( to: CGPoint( x:  7, y:  5 ) )
-        context?.addLine( to: CGPoint( x:  7, y:  9 ) )
-        context?.addLine( to: CGPoint( x:  3, y:  9 ) )
-        context?.addLine( to: CGPoint( x:  3, y: 13 ) )
-        context?.addLine( to: CGPoint( x: 11, y: 13 ) )
-        context?.addLine( to: CGPoint( x: 11, y:  5 ) )
+    func bendHorizontal( context: CGContext ) -> Void {
+        context.move(    to: CGPoint( x:  1, y:  5 ) )
+        context.addLine( to: CGPoint( x:  7, y:  5 ) )
+        context.addLine( to: CGPoint( x:  7, y:  9 ) )
+        context.addLine( to: CGPoint( x:  3, y:  9 ) )
+        context.addLine( to: CGPoint( x:  3, y: 13 ) )
+        context.addLine( to: CGPoint( x: 11, y: 13 ) )
+        context.addLine( to: CGPoint( x: 11, y:  5 ) )
     }
 
 
-    func bendVertical( context: CGContext? ) -> Void {
-        context?.saveGState()
-        context?.translateBy( x: CGFloat( maxWidth ), y: CGFloat( minWidth ) )
-        context?.rotate( by: -CGFloat.pi / 2 )
-        context?.translateBy( x: CGFloat( -maxWidth ), y: CGFloat( -minWidth ) )
-        context?.translateBy( x: 3, y: -3 )
+    func bendVertical( context: CGContext ) -> Void {
+        context.saveGState()
+        context.translateBy( x: CGFloat( maxWidth ), y: CGFloat( minWidth ) )
+        context.rotate( by: -CGFloat.pi / 2 )
+        context.translateBy( x: CGFloat( -maxWidth ), y: CGFloat( -minWidth ) )
+        context.translateBy( x: 3, y: -3 )
         bendHorizontal( context: context )
-        context?.restoreGState()
+        context.restoreGState()
     }
     
     
