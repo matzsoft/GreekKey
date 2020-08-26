@@ -14,6 +14,8 @@ class GreekKeyBorder {
     let height:       Int
     let xBlocks:      Int
     let yBlocks:      Int
+    let xUsed:        Int
+    let yUsed:        Int
     let xCells:       Int
     let yCells:       Int
     let borderWidth:  Int
@@ -28,10 +30,12 @@ class GreekKeyBorder {
         
         xBlocks      = width / Int( generator.blockSize )
         yBlocks      = height / Int( generator.blockSize )
-        xCells       = generator.cellCount( blockCount: xBlocks )
-        yCells       = generator.cellCount( blockCount: yBlocks )
-        borderWidth  = Int( generator.blockSize ) * generator.blocksUsed( blockCount: xBlocks )
-        borderHeight = Int( generator.blockSize ) * generator.blocksUsed( blockCount: yBlocks )
+        xUsed        = generator.blocksUsed( blockCount: xBlocks - 4 ) + 4
+        yUsed        = generator.blocksUsed( blockCount: yBlocks - 4 ) + 4
+        xCells       = generator.cellCount( blockCount: xBlocks - 4 )
+        yCells       = generator.cellCount( blockCount: yBlocks - 4 )
+        borderWidth  = Int( generator.blockSize ) * xUsed
+        borderHeight = Int( generator.blockSize ) * yUsed
         leftMargin   = ( width - borderWidth ) / 2
         bottomMargin = ( height - borderHeight ) / 2
     }
@@ -58,28 +62,29 @@ class GreekKeyBorder {
         context.interpolationQuality = .high
         context.setAllowsAntialiasing( true )
         context.translateBy( x: CGFloat( leftMargin ), y: CGFloat( bottomMargin ) )
-        
+        context.scaleBy( x: generator.blockSize, y: generator.blockSize )
+
         context.setStrokeColor( generator.bgColor )
         drawBounds(
             context: context,
-            thickness: CGFloat( generator.midWidth * generator.blockSize ),
-            rect: CGRect( x: 0, y: 0, width: borderWidth, height: borderHeight )
+            thickness: generator.maxWidth + 1,
+            rect: CGRect( x: 0, y: 0, width: xUsed, height: yUsed )
         )
         context.setStrokeColor( generator.fgColor )
         drawBounds(
             context: context,
-            thickness: CGFloat( generator.blockSize ),
-            rect: CGRect( x: 0, y: 0, width: borderWidth, height: borderHeight )
+            thickness: 1,
+            rect: CGRect( x: 0, y: 0, width: xUsed, height: yUsed )
         )
-        drawBounds( context: context, thickness: CGFloat( generator.blockSize ), rect: CGRect(
-            x: generator.midWidth * generator.blockSize,
-            y: generator.midWidth * generator.blockSize,
-            width: generator.blockSize * ( CGFloat(xCells) * generator.minWidth + 1 ),
-            height: generator.blockSize * ( CGFloat(yCells) * generator.minWidth + 1 )
+        drawBounds( context: context, thickness: 1, rect: CGRect(
+            x: generator.maxWidth + 1,
+            y: generator.maxWidth + 1,
+            width: CGFloat(xCells) * generator.minWidth + 1,
+            height: CGFloat(yCells) * generator.minWidth + 1
         ) )
         
         // Create cells across the bottom
-        context.scaleBy( x: CGFloat( generator.blockSize ), y: CGFloat( generator.blockSize ) )
+        context.translateBy( x: 2, y: 2 )
         context.saveGState()
         generator.botLeft( context: context )
         for _ in 1 ... xCells { generator.horizontal( context: context ) }
@@ -90,7 +95,7 @@ class GreekKeyBorder {
         
         // Create cells up the left
         context.restoreGState()
-        context.translateBy( x: 0, y: CGFloat( generator.midWidth ) )
+        context.translateBy( x: 0, y: generator.minWidth )
         for _ in 1 ... yCells { generator.vertical( context: context ) }
         generator.topLeft( context: context )
         

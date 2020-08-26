@@ -10,8 +10,7 @@ import Foundation
 
 class GreekKeyCells {
     static let minWidth   = CGFloat( 6 )
-    static let midWidth   = CGFloat( 8 )
-    static let maxWidth   = CGFloat( 9 )
+    static let maxWidth   = CGFloat( 7 )
     static let colorSpace = CGColorSpace( name: CGColorSpace.sRGB )!
     
     let blockSize: CGFloat
@@ -19,7 +18,6 @@ class GreekKeyCells {
     let bgColor:   CGColor
     
     var minWidth:   CGFloat      { return GreekKeyCells.minWidth }
-    var midWidth:   CGFloat      { return GreekKeyCells.midWidth }
     var maxWidth:   CGFloat      { return GreekKeyCells.maxWidth }
     var colorSpace: CGColorSpace { return GreekKeyCells.colorSpace }
 
@@ -31,19 +29,19 @@ class GreekKeyCells {
     
 
     static func maxBlockSize( forImageSize: CGFloat ) -> CGFloat {
-        return forImageSize / ( maxWidth + minWidth + midWidth )
+        return forImageSize / ( maxWidth + minWidth + minWidth )
     }
     
     static func minImageSize( forBlockSize bs: CGFloat ) -> CGFloat {
-        return bs * maxWidth + bs * minWidth + bs * midWidth
+        return bs * maxWidth + bs * minWidth + bs * minWidth
     }
     
     func cellCount( blockCount: Int ) -> Int {
-        return ( blockCount - Int( maxWidth ) - Int( midWidth ) ) / Int( minWidth )
+        return ( blockCount - Int( maxWidth ) - Int( minWidth ) ) / Int( minWidth )
     }
     
     func blocksUsed( blockCount: Int ) -> Int {
-        return blockCount - ( blockCount - Int( maxWidth ) - Int( midWidth ) ) % Int( minWidth )
+        return blockCount - ( blockCount - Int( maxWidth ) - Int( minWidth ) ) % Int( minWidth )
     }
         
 
@@ -63,22 +61,20 @@ class GreekKeyCells {
     
     
     func bendHorizontal( context: CGContext ) -> Void {
-        context.move(    to: CGPoint( x: 0.5, y: 2.5 ) )
+        context.move(    to: CGPoint( x: 0.5, y: 0.5 ) )
+        context.addLine( to: CGPoint( x: 3.5, y: 0.5 ) )
         context.addLine( to: CGPoint( x: 3.5, y: 2.5 ) )
-        context.addLine( to: CGPoint( x: 3.5, y: 4.5 ) )
+        context.addLine( to: CGPoint( x: 1.5, y: 2.5 ) )
         context.addLine( to: CGPoint( x: 1.5, y: 4.5 ) )
-        context.addLine( to: CGPoint( x: 1.5, y: 6.5 ) )
-        context.addLine( to: CGPoint( x: 5.5, y: 6.5 ) )
-        context.addLine( to: CGPoint( x: 5.5, y: 2.5 ) )
+        context.addLine( to: CGPoint( x: 5.5, y: 4.5 ) )
+        context.addLine( to: CGPoint( x: 5.5, y: 0.5 ) )
     }
 
 
     func bendVertical( context: CGContext ) -> Void {
         context.saveGState()
-        context.translateBy( x: maxWidth / 2, y: minWidth / 2 )
         context.rotate( by: -CGFloat.pi / 2 )
-        context.translateBy( x: -maxWidth / 2, y: -minWidth / 2 )
-        context.translateBy( x: 1.5, y: -1.5 )
+        context.translateBy( x: -minWidth, y: 0 )
         bendHorizontal( context: context )
         context.restoreGState()
     }
@@ -86,18 +82,17 @@ class GreekKeyCells {
     
     func topLeft( context: CGContext ) -> Void {
         bendVertical( context: context )
-        context.move(    to: CGPoint( x: 2.5, y: 6.5 ) )
-        context.addLine( to: CGPoint( x: 8.5, y: 6.5 ) )
-        context.addLine( to: CGPoint( x: 8.5, y: 2.5 ) )
-        context.translateBy( x: maxWidth, y: 0 )
+        context.move(    to: CGPoint( x: 0.5, y: 6.5 ) )
+        context.addLine( to: CGPoint( x: 6.5, y: 6.5 ) )
+        context.addLine( to: CGPoint( x: 6.5, y: 2.5 ) )
+        context.translateBy( x: maxWidth, y: 2 )
     }
     
     
     func topRight( context: CGContext ) -> Void {
         bendHorizontal( context: context )
-        context.addLine( to: CGPoint( x: 5.5, y: 0.5 ) )
-        context.addLine( to: CGPoint( x: 1.5, y: 0.5 ) )
-        context.translateBy( x: 0, y: -minWidth )
+        context.addLine( to: CGPoint( x: 5.5, y: -1.5 ) )
+        context.addLine( to: CGPoint( x: 1.5, y: -1.5 ) )
     }
     
     
@@ -109,24 +104,20 @@ class GreekKeyCells {
     
     
     func botLeft( context: CGContext ) -> Void {
-        context.saveGState()
-        context.translateBy( x: 3, y: 0 )
+        context.addLines( between: [ CGPoint( x: 0.5, y: 0.5 ), CGPoint( x: 0.5, y: 5.5 ) ] )
+        context.translateBy( x: 1, y: 0 )
         bendHorizontal( context: context )
-        context.addLines( between: [ CGPoint( x: -0.5, y: 2.5 ), CGPoint( x: -0.5, y: 7.5 ) ] )
-        context.restoreGState()
 
-        context.translateBy( x: maxWidth, y: 0 )
+        context.translateBy( x: minWidth, y: 0 )
     }
     
     
     func botRight( context: CGContext ) -> Void {
-        context.saveGState()
-        context.translateBy( x: -1, y: 2 )
+        context.translateBy( x: 1, y: 0 )
         bendVertical( context: context )
-        context.addLine( to: CGPoint( x: 1.5, y: 0.5 ) )
-        context.restoreGState()
+        context.addLine( to: CGPoint( x: -0.5, y: 0.5 ) )
 
-        context.translateBy( x: -1, y: midWidth )
+        context.translateBy( x: 0, y: minWidth )
     }
     
     
