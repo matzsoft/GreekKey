@@ -26,12 +26,12 @@ class GreekKeyBorder {
         self.width = width
         self.height = height
         
-        xBlocks      = width / generator.blockSize
-        yBlocks      = height / generator.blockSize
-        xCells       = ( xBlocks - 2 * generator.maxWidth + 1 ) / generator.minWidth
-        yCells       = ( yBlocks - 2 * generator.maxWidth + 1 ) / generator.minWidth
-        borderWidth  = generator.blockSize * ( xCells * generator.minWidth + 2 * generator.maxWidth - 1 )
-        borderHeight = generator.blockSize * ( yCells * generator.minWidth + 2 * generator.maxWidth - 1 )
+        xBlocks      = width / Int( generator.blockSize )
+        yBlocks      = height / Int( generator.blockSize )
+        xCells       = generator.cellCount( blockCount: xBlocks )
+        yCells       = generator.cellCount( blockCount: yBlocks )
+        borderWidth  = Int( generator.blockSize ) * generator.blocksUsed( blockCount: xBlocks )
+        borderHeight = Int( generator.blockSize ) * generator.blocksUsed( blockCount: yBlocks )
         leftMargin   = ( width - borderWidth ) / 2
         bottomMargin = ( height - borderHeight ) / 2
     }
@@ -74,8 +74,8 @@ class GreekKeyBorder {
         drawBounds( context: context, thickness: CGFloat( generator.blockSize ), rect: CGRect(
             x: generator.midWidth * generator.blockSize,
             y: generator.midWidth * generator.blockSize,
-            width: generator.blockSize * ( xCells * generator.minWidth + 1 ),
-            height: generator.blockSize * ( yCells * generator.minWidth + 1 )
+            width: generator.blockSize * ( CGFloat(xCells) * generator.minWidth + 1 ),
+            height: generator.blockSize * ( CGFloat(yCells) * generator.minWidth + 1 )
         ) )
         
         // Create cells across the bottom

@@ -9,36 +9,44 @@
 import Foundation
 
 class GreekKeyCells {
-    static let minWidth   = 6
-    static let midWidth   = 8
-    static let maxWidth   = 9
+    static let minWidth   = CGFloat( 6 )
+    static let midWidth   = CGFloat( 8 )
+    static let maxWidth   = CGFloat( 9 )
     static let colorSpace = CGColorSpace( name: CGColorSpace.sRGB )!
     
-    let blockSize: Int
+    let blockSize: CGFloat
     let fgColor:   CGColor
     let bgColor:   CGColor
     
-    var minWidth:   Int          { return GreekKeyCells.minWidth }
-    var midWidth:   Int          { return GreekKeyCells.midWidth }
-    var maxWidth:   Int          { return GreekKeyCells.maxWidth }
+    var minWidth:   CGFloat      { return GreekKeyCells.minWidth }
+    var midWidth:   CGFloat      { return GreekKeyCells.midWidth }
+    var maxWidth:   CGFloat      { return GreekKeyCells.maxWidth }
     var colorSpace: CGColorSpace { return GreekKeyCells.colorSpace }
 
-    init( blockSize: Int, fgColor: CGColor, bgColor: CGColor ) {
+    init( blockSize: CGFloat, fgColor: CGColor, bgColor: CGColor ) {
         self.blockSize = blockSize
         self.fgColor   = fgColor
         self.bgColor   = bgColor
     }
     
 
-    static func maxBlockSize( forImageSize: Int ) -> Int {
+    static func maxBlockSize( forImageSize: CGFloat ) -> CGFloat {
         return forImageSize / ( maxWidth + minWidth + midWidth )
     }
     
-    static func minImageSize( forBlockSize bs: Int ) -> Int {
+    static func minImageSize( forBlockSize bs: CGFloat ) -> CGFloat {
         return bs * maxWidth + bs * minWidth + bs * midWidth
     }
     
+    func cellCount( blockCount: Int ) -> Int {
+        return ( blockCount - Int( maxWidth ) - Int( midWidth ) ) / Int( minWidth )
+    }
     
+    func blocksUsed( blockCount: Int ) -> Int {
+        return blockCount - ( blockCount - Int( maxWidth ) - Int( midWidth ) ) % Int( minWidth )
+    }
+        
+
     func setupContext( width: Int, height: Int ) -> CGContext {
         guard let context = CGContext( data: nil, width: width, height: height,
                                        bitsPerComponent: 8, bytesPerRow: 4 * width, space: colorSpace,
@@ -67,9 +75,9 @@ class GreekKeyCells {
 
     func bendVertical( context: CGContext ) -> Void {
         context.saveGState()
-        context.translateBy( x: CGFloat( maxWidth ) / 2, y: CGFloat( minWidth ) / 2 )
+        context.translateBy( x: maxWidth / 2, y: minWidth / 2 )
         context.rotate( by: -CGFloat.pi / 2 )
-        context.translateBy( x: CGFloat( -maxWidth ) / 2, y: CGFloat( -minWidth ) / 2 )
+        context.translateBy( x: -maxWidth / 2, y: -minWidth / 2 )
         context.translateBy( x: 1.5, y: -1.5 )
         bendHorizontal( context: context )
         context.restoreGState()
@@ -81,7 +89,7 @@ class GreekKeyCells {
         context.move(    to: CGPoint( x: 2.5, y: 6.5 ) )
         context.addLine( to: CGPoint( x: 8.5, y: 6.5 ) )
         context.addLine( to: CGPoint( x: 8.5, y: 2.5 ) )
-        context.translateBy( x: CGFloat( maxWidth ), y: 0 )
+        context.translateBy( x: maxWidth, y: 0 )
     }
     
     
@@ -89,14 +97,14 @@ class GreekKeyCells {
         bendHorizontal( context: context )
         context.addLine( to: CGPoint( x: 5.5, y: 0.5 ) )
         context.addLine( to: CGPoint( x: 1.5, y: 0.5 ) )
-        context.translateBy( x: 0, y: CGFloat( -minWidth ) )
+        context.translateBy( x: 0, y: -minWidth )
     }
     
     
     func horizontal( context: CGContext ) -> Void {
         bendHorizontal( context: context )
 
-        context.translateBy( x: CGFloat( minWidth ), y: 0 )
+        context.translateBy( x: minWidth, y: 0 )
     }
     
     
@@ -107,7 +115,7 @@ class GreekKeyCells {
         context.addLines( between: [ CGPoint( x: -0.5, y: 2.5 ), CGPoint( x: -0.5, y: 7.5 ) ] )
         context.restoreGState()
 
-        context.translateBy( x: CGFloat( maxWidth ), y: 0 )
+        context.translateBy( x: maxWidth, y: 0 )
     }
     
     
@@ -118,13 +126,13 @@ class GreekKeyCells {
         context.addLine( to: CGPoint( x: 1.5, y: 0.5 ) )
         context.restoreGState()
 
-        context.translateBy( x: -1, y: CGFloat( midWidth ) )
+        context.translateBy( x: -1, y: midWidth )
     }
     
     
     func vertical( context: CGContext ) -> Void {
         bendVertical( context: context )
 
-        context.translateBy( x: 0, y: CGFloat( minWidth ) )
+        context.translateBy( x: 0, y: minWidth )
     }
 }

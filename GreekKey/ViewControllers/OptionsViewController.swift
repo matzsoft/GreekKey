@@ -78,7 +78,7 @@ class OptionsViewController: NSViewController {
     func setSliderMax() -> Void {
         if let bounds = resultsViewController?.imageView.bounds {
             let size = min( bounds.width, bounds.height )
-            let maxBlockSize = GreekKeyCells.maxBlockSize( forImageSize: Int(size) )
+            let maxBlockSize = GreekKeyCells.maxBlockSize( forImageSize: size )
             
             blockSizeSlider.maxValue = Double(maxBlockSize)
         }
@@ -87,7 +87,7 @@ class OptionsViewController: NSViewController {
     func createBorder() -> GreekKeyBorder? {
         guard let rvc = resultsViewController else { return nil }
         
-        let blockSize = blockSizeSlider.integerValue
+        let blockSize = CGFloat( blockSizeSlider.integerValue )
         let fgColor = foregroundColorWell.color.cgColor
         let bgColor = backgroundColorWell.color.cgColor
         let width = rvc.imageView.bounds.width

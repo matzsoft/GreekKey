@@ -33,14 +33,14 @@ class ResultsViewController: NSViewController, NSWindowDelegate {
         let deltax    = frameSize.width - oldFrame.width
         let deltay    = frameSize.height - oldFrame.height
         let newBounds = CGSize( width: oldBounds.width + deltax, height: oldBounds.height + deltay )
-        let minSize   = GreekKeyCells.minImageSize( forBlockSize: Int(blockSize) )
+        let minSize   = GreekKeyCells.minImageSize( forBlockSize: CGFloat(blockSize) )
         var newFrame  = frameSize
         
-        if Int(newBounds.width) < minSize {
-            newFrame.width = oldFrame.width - oldBounds.width + CGFloat(minSize)
+        if newBounds.width < minSize {
+            newFrame.width = oldFrame.width - oldBounds.width + minSize
         }
-        if Int(newBounds.height) < minSize {
-            newFrame.height = oldFrame.height - oldBounds.height + CGFloat(minSize)
+        if newBounds.height < minSize {
+            newFrame.height = oldFrame.height - oldBounds.height + minSize
         }
         
         return newFrame
