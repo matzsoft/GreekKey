@@ -82,7 +82,7 @@ class GreekKeyBorder {
         let halfWidth = thickness / 2
         
         context.setLineWidth( thickness )
-        context.stroke( CGRect(
+        context.addRect( CGRect(
             x: rect.minX + halfWidth,
             y: rect.minY + halfWidth,
             width: rect.width - thickness,
@@ -109,6 +109,7 @@ class GreekKeyBorder {
             thickness: GreekKeyCell.horizontal.height + 2,
             rect: CGRect( x: 1, y: 1, width: used.width - 2, height: used.height - 2 )
         )
+        context.strokePath()
         context.setStrokeColor( fgColor )
         drawBounds(
             context: context,
