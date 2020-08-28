@@ -77,8 +77,7 @@ class OptionsViewController: NSViewController {
     
     func setSliderMax() -> Void {
         if let bounds = resultsViewController?.imageView.bounds {
-            let size = min( bounds.width, bounds.height )
-            let maxBlockSize = GreekKeyCells.maxBlockSize( forImageSize: size )
+            let maxBlockSize = GreekKeyBorder.maxBlockSize( forImageSize: bounds.size )
             
             blockSizeSlider.maxValue = Double(maxBlockSize)
         }
@@ -90,11 +89,10 @@ class OptionsViewController: NSViewController {
         let blockSize = CGFloat( blockSizeSlider.integerValue )
         let fgColor = foregroundColorWell.color.cgColor
         let bgColor = backgroundColorWell.color.cgColor
-        let width = rvc.imageView.bounds.width
-        let height = rvc.imageView.bounds.height
-        let generator = GreekKeyCells( blockSize: blockSize, fgColor: fgColor, bgColor: bgColor )
         
-        return GreekKeyBorder( generator: generator, width: Int(width), height: Int(height) )
+        return GreekKeyBorder(
+            bounds: rvc.imageView.bounds, blockSize: blockSize, fgColor: fgColor, bgColor: bgColor
+        )
     }
     
     func updateBorder() -> Void {
@@ -106,8 +104,8 @@ class OptionsViewController: NSViewController {
         rvc.setImage( image: image )
         
         DispatchQueue.main.async {
-            self.horizontalCountLabel.stringValue = "\(border.xCells)"
-            self.verticalCountLabel.stringValue = "\(border.yCells)"
+            self.horizontalCountLabel.stringValue = "\(border.cells.width)"
+            self.verticalCountLabel.stringValue = "\(border.cells.height)"
         }
     }
 }

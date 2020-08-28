@@ -8,17 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		DD0A001022F21B60006E418E /* GreekKeyBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0A000E22F21B60006E418E /* GreekKeyBorder.swift */; };
-		DD0A001122F21B60006E418E /* GreekKeyCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0A000F22F21B60006E418E /* GreekKeyCells.swift */; };
 		DD0A001422F3DC65006E418E /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0A001322F3DC65006E418E /* ResultsViewController.swift */; };
 		DD0A001622F3DC92006E418E /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0A001522F3DC92006E418E /* OptionsViewController.swift */; };
 		DD0AFFE622EE7CA3006E418E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0AFFE522EE7CA3006E418E /* AppDelegate.swift */; };
 		DD0AFFEA22EE7CA5006E418E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD0AFFE922EE7CA5006E418E /* Assets.xcassets */; };
 		DD0AFFED22EE7CA5006E418E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DD0AFFEB22EE7CA5006E418E /* Main.storyboard */; };
+		DD7151EA24F784EF00CCF538 /* GreekKeyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7151E924F784EF00CCF538 /* GreekKeyCell.swift */; };
+		DD7151EC24F98A8400CCF538 /* IntSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7151EB24F98A8400CCF538 /* IntSize.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		DD0A000E22F21B60006E418E /* GreekKeyBorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreekKeyBorder.swift; sourceTree = "<group>"; };
-		DD0A000F22F21B60006E418E /* GreekKeyCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GreekKeyCells.swift; sourceTree = "<group>"; };
 		DD0A001322F3DC65006E418E /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
 		DD0A001522F3DC92006E418E /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
 		DD0AFFE222EE7CA3006E418E /* GreekKey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GreekKey.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -27,6 +27,8 @@
 		DD0AFFEC22EE7CA5006E418E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DD0AFFEE22EE7CA5006E418E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DD0AFFEF22EE7CA5006E418E /* GreekKey.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GreekKey.entitlements; sourceTree = "<group>"; };
+		DD7151E924F784EF00CCF538 /* GreekKeyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreekKeyCell.swift; sourceTree = "<group>"; };
+		DD7151EB24F98A8400CCF538 /* IntSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntSize.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,12 +72,13 @@
 			children = (
 				DD0AFFE522EE7CA3006E418E /* AppDelegate.swift */,
 				DD0A000E22F21B60006E418E /* GreekKeyBorder.swift */,
-				DD0A000F22F21B60006E418E /* GreekKeyCells.swift */,
+				DD7151E924F784EF00CCF538 /* GreekKeyCell.swift */,
 				DD0A001222F3DC1E006E418E /* ViewControllers */,
 				DD0AFFE922EE7CA5006E418E /* Assets.xcassets */,
 				DD0AFFEB22EE7CA5006E418E /* Main.storyboard */,
 				DD0AFFEE22EE7CA5006E418E /* Info.plist */,
 				DD0AFFEF22EE7CA5006E418E /* GreekKey.entitlements */,
+				DD7151EB24F98A8400CCF538 /* IntSize.swift */,
 			);
 			path = GreekKey;
 			sourceTree = "<group>";
@@ -155,8 +158,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD0A001122F21B60006E418E /* GreekKeyCells.swift in Sources */,
+				DD7151EC24F98A8400CCF538 /* IntSize.swift in Sources */,
 				DD0A001022F21B60006E418E /* GreekKeyBorder.swift in Sources */,
+				DD7151EA24F784EF00CCF538 /* GreekKeyCell.swift in Sources */,
 				DD0A001622F3DC92006E418E /* OptionsViewController.swift in Sources */,
 				DD0A001422F3DC65006E418E /* ResultsViewController.swift in Sources */,
 				DD0AFFE622EE7CA3006E418E /* AppDelegate.swift in Sources */,
