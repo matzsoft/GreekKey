@@ -67,12 +67,12 @@ class GreekKeyBorder {
         self.blockSize = blockSize
         self.fgColor   = fgColor
         self.bgColor   = bgColor
-        self.bounds    = IntSize( width: Int( boundsRect.width ), height: Int( boundsRect.height ) )
+        self.bounds    = IntSize( rect: boundsRect )
 
         blocks = IntSize( width: bounds.width / Int( blockSize ), height: bounds.height / Int( blockSize ) )
         used   = GreekKeyBorder.blocksUsed( blockCount: blocks )
         cells  = GreekKeyBorder.cellCount( blockCount: blocks )
-        border = IntSize( width: Int( blockSize ) * used.width, height: Int( blockSize ) * used.height )
+        border = Int( blockSize ) * used
         margin = CGSize(
             width: ( bounds.width - border.width ) / 2, height: ( bounds.height - border.height ) / 2
         )
