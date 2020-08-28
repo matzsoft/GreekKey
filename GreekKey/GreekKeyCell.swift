@@ -16,7 +16,7 @@ class GreekKeyCell {
         return GreekKeyCell( width: width, height: height ) {
             context in
 
-            context.addLines( between: [ CGPoint( x: 0.5, y: 0.5 ), CGPoint( x: 0.5, y: 5.5 ) ] )
+            context.addLines( between: [ CGPoint( x: 0.5, y: 0.0 ), CGPoint( x: 0.5, y: 6.0 ) ] )
             context.translateBy( x: 1, y: 0 )
             self.bendHorizontal( context: context )
             context.translateBy( x: width - 1, y: 0 )
@@ -44,7 +44,7 @@ class GreekKeyCell {
             
             context.translateBy( x: 1, y: 0 )
             self.bendVertical( context: context )
-            context.addLine( to: CGPoint( x: -0.5, y: 0.5 ) )
+            context.addLines( between: [ CGPoint( x: -1.0, y: 0.5 ), CGPoint( x: 0.0, y: 0.5 ) ] )
 
             context.translateBy( x: 0, y: height )
         }
@@ -70,9 +70,8 @@ class GreekKeyCell {
             context in
             
             self.bendVertical( context: context )
-            context.move(    to: CGPoint( x: 0.5, y: 6.5 ) )
-            context.addLine( to: CGPoint( x: 6.5, y: 6.5 ) )
-            context.addLine( to: CGPoint( x: 6.5, y: 2.5 ) )
+            context.addLines( between: [ CGPoint( x: 0.0, y: 6.5 ), CGPoint( x: 7.0, y: 6.5 ) ] )
+            context.addLines( between: [ CGPoint( x: 6.5, y: 7.0 ), CGPoint( x: 6.5, y: 2.0 ) ] )
             context.translateBy( x: width, y: 2 )
         }
     }
@@ -85,8 +84,8 @@ class GreekKeyCell {
             context in
             
             self.bendHorizontal( context: context )
-            context.addLine( to: CGPoint( x: 5.5, y: -1.5 ) )
-            context.addLine( to: CGPoint( x: 1.5, y: -1.5 ) )
+            context.addLines( between: [ CGPoint( x: 5.5, y: 0.0 ), CGPoint( x: 5.5, y: -2.0 ) ] )
+            context.addLines( between: [ CGPoint( x: 5.0, y: -1.5 ), CGPoint( x: 1.0, y: -1.5 ) ] )
         }
     }
     
@@ -101,13 +100,12 @@ class GreekKeyCell {
     }
     
     private static func bendHorizontal( context: CGContext ) -> Void {
-        context.move(    to: CGPoint( x: 0.5, y: 0.5 ) )
-        context.addLine( to: CGPoint( x: 3.5, y: 0.5 ) )
-        context.addLine( to: CGPoint( x: 3.5, y: 2.5 ) )
-        context.addLine( to: CGPoint( x: 1.5, y: 2.5 ) )
-        context.addLine( to: CGPoint( x: 1.5, y: 4.5 ) )
-        context.addLine( to: CGPoint( x: 5.5, y: 4.5 ) )
-        context.addLine( to: CGPoint( x: 5.5, y: 0.5 ) )
+        context.addLines( between: [ CGPoint( x: 0.0, y: 0.5 ), CGPoint( x: 4.0, y: 0.5 ) ] )
+        context.addLines( between: [ CGPoint( x: 3.5, y: 0.0 ), CGPoint( x: 3.5, y: 3.0 ) ] )
+        context.addLines( between: [ CGPoint( x: 4.0, y: 2.5 ), CGPoint( x: 1.0, y: 2.5 ) ] )
+        context.addLines( between: [ CGPoint( x: 1.5, y: 2.0 ), CGPoint( x: 1.5, y: 5.0 ) ] )
+        context.addLines( between: [ CGPoint( x: 1.0, y: 4.5 ), CGPoint( x: 6.0, y: 4.5 ) ] )
+        context.addLines( between: [ CGPoint( x: 5.5, y: 5.0 ), CGPoint( x: 5.5, y: 0.0 ) ] )
     }
     
 

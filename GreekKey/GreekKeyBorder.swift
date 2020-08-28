@@ -111,6 +111,15 @@ class GreekKeyBorder {
         )
         context.strokePath()
         context.setStrokeColor( fgColor )
+        addPath( context: context )
+        
+        context.setLineWidth( 1 )
+        context.setLineCap( .butt )
+        context.strokePath()
+        return context.makeImage()
+    }
+    
+    func addPath( context: CGContext ) -> Void {
         drawBounds(
             context: context,
             thickness: 1,
@@ -142,10 +151,5 @@ class GreekKeyBorder {
         // Create cells across the top
         for _ in 1 ... cells.width { GreekKeyCell.horizontal.draw( context ) }
         GreekKeyCell.upperRight.draw( context )
-        
-        context.setLineWidth( 1 )
-        context.setLineCap( .square )
-        context.strokePath()
-        return context.makeImage()
     }
 }
